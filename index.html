@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор рейтингов</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4895ef;
+            --text-color: #333;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --border-radius: 8px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+        }
+        
+        .calculator {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .input-section, .result-section {
+            background-color: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+        
+        h2 {
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(72, 149, 239, 0.2);
+        }
+        
+        .result-card {
+            background-color: var(--light-bg);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+        }
+        
+        .result-title {
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        
+        .result-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .result-explanation {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .calculator {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Калькулятор рейтингов</h1>
+        
+        <div class="calculator">
+            <div class="input-section">
+                <h2>Введите оценки</h2>
+                
+                <div class="input-group">
+                    <label for="rating1">Кол-во отзывов на 1</label>
+                    <input type="number" id="rating1" min="0" value="0">
+                </div>
+                
+                <div class="input-group">
+                    <label for="rating2">Кол-во отзывов на 2</label>
+                    <input type="number" id="rating2" min="0" value="0">
+                </div>
+                
+                <div class="input-group">
+                    <label for="rating3">Кол-во отзывов на 3</label>
+                    <input type="number" id="rating3" min="0" value="0">
+                </div>
+                
+                <div class="input-group">
+                    <label for="rating4">Кол-во отзывов на 4</label>
+                    <input type="number" id="rating4" min="0" value="0">
+                </div>
+                
+                <div class="input-group">
+                    <label for="rating5">Кол-во отзывов на 5</label>
+                    <input type="number" id="rating5" min="0" value="0">
+                </div>
+                
+                <div class="input-group">
+                    <label for="targetRating">Желаемый рейтинг</label>
+                    <input type="number" id="targetRating" min="1" max="5" step="0.1" value="4.5">
+                </div>
+            </div>
+            
+            <div class="result-section">
+                <h2>Results</h2>
+                
+                <div class="result-card">
+                    <div class="result-title">Текущий рейтинг</div>
+                    <div class="result-value" id="currentRating">4.38</div>
+                    <div class="result-explanation">На основе общего количества <span id="totalReviews">126</span> отзывов</div>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-title">Нужно отзывов на 5 звезд</div>
+                    <div class="result-value" id="additionalReviews">15</div>
+                    <div class="result-explanation">Для достижения желаемого рейтинга <span id="targetDisplay">4.5</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Get all input elements
+        const rating1Input = document.getElementById('rating1');
+        const rating2Input = document.getElementById('rating2');
+        const rating3Input = document.getElementById('rating3');
+        const rating4Input = document.getElementById('rating4');
+        const rating5Input = document.getElementById('rating5');
+        const targetRatingInput = document.getElementById('targetRating');
+        
+        // Get result elements
+        const currentRatingElement = document.getElementById('currentRating');
+        const additionalReviewsElement = document.getElementById('additionalReviews');
+        const totalReviewsElement = document.getElementById('totalReviews');
+        const targetDisplayElement = document.getElementById('targetDisplay');
+        
+        // Function to update results
+        function updateResults() {
+            const D6 = parseInt(rating1Input.value) || 0;
+            const E6 = parseInt(rating2Input.value) || 0;
+            const F6 = parseInt(rating3Input.value) || 0;
+            const G6 = parseInt(rating4Input.value) || 0;
+            const H6 = parseInt(rating5Input.value) || 0;
+            const K6 = parseFloat(targetRatingInput.value) || 4.5;
+            
+            // Handle special case when target rating is 5
+            if (K6 === 5) {
+                // Calculate the current rating
+                const totalReviews = D6 + E6 + F6 + G6 + H6;
+                const currentSum = D6 * 1 + E6 * 2 + F6 * 3 + G6 * 4 + H6 * 5;
+                const currentRating = totalReviews > 0 ? currentSum / totalReviews : 0;
+                
+                // For a perfect 5 rating, all reviews must be 5 stars
+                // Calculate how many non-5-star reviews need to be converted to 5-star
+                const nonFiveStarReviews = D6 + E6 + F6 + G6;
+                
+                // Calculate additional 5-star reviews needed
+                // For a perfect 5, we need to add enough 5-star reviews to make all non-5-star reviews negligible
+                // This is an approximation, as true 5.0 would require infinite 5-star reviews or removing all non-5-star reviews
+                const additionalReviews = nonFiveStarReviews > 0 ? nonFiveStarReviews * 1000 : 0;
+                
+                // Update the UI
+                currentRatingElement.textContent = currentRating.toFixed(1);
+                additionalReviewsElement.textContent = nonFiveStarReviews > 0 ? "Очень много" : "0";
+                totalReviewsElement.textContent = totalReviews;
+                targetDisplayElement.textContent = K6.toFixed(1);
+                
+                return;
+            }
+            
+            // Call the function from script.js for other cases
+            const result = calculateRatingAndRequiredReviews(D6, E6, F6, G6, H6, K6);
+            
+            // Update the UI
+            currentRatingElement.textContent = result.currentRating.toFixed(1);
+            additionalReviewsElement.textContent = result.additionalReviews;
+            totalReviewsElement.textContent = D6 + E6 + F6 + G6 + H6;
+            targetDisplayElement.textContent = K6.toFixed(1);
+        }
+        
+        // Add event listeners to all inputs
+        [rating1Input, rating2Input, rating3Input, rating4Input, rating5Input, targetRatingInput].forEach(input => {
+            input.addEventListener('input', updateResults);
+        });
+        
+        // Add mouse wheel functionality to all number inputs
+        const numberInputs = [rating1Input, rating2Input, rating3Input, rating4Input, rating5Input, targetRatingInput];
+        
+        numberInputs.forEach(input => {
+            input.addEventListener('wheel', function(e) {
+                // Prevent the page from scrolling
+                e.preventDefault();
+                
+                // Get current value as number
+                let value = parseFloat(this.value) || 0;
+                
+                // Determine step size (use input's step attribute or default to 1)
+                const step = this.step ? parseFloat(this.step) : 1;
+                
+                // Scroll up increases value, scroll down decreases value
+                if (e.deltaY < 0) {
+                    value += step; // Scroll up
+                } else {
+                    value -= step; // Scroll down
+                }
+                
+                // Apply min/max constraints if they exist
+                if (this.min !== "" && value < parseFloat(this.min)) {
+                    value = parseFloat(this.min);
+                }
+                if (this.max !== "" && value > parseFloat(this.max)) {
+                    value = parseFloat(this.max);
+                }
+                
+                // Fix floating point precision issues
+                // Determine number of decimal places from step
+                let decimalPlaces = 0;
+                if (this.step && this.step.includes('.')) {
+                    decimalPlaces = this.step.split('.')[1].length;
+                }
+                
+                // Round to the appropriate number of decimal places
+                value = Number(value.toFixed(decimalPlaces));
+                
+                // Update input value
+                this.value = value;
+                
+                // Trigger the input event to update calculations
+                this.dispatchEvent(new Event('input'));
+            });
+            
+            // Add focus requirement for wheel functionality to work
+            input.addEventListener('focus', function() {
+                this.dataset.focused = 'true';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.dataset.focused = 'false';
+            });
+        });
+        
+        // Initial calculation
+        updateResults();
+    </script>
+</body>
+</html>
