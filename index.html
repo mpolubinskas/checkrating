@@ -39,6 +39,27 @@
             box-shadow: var(--card-shadow);
         }
         
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+        
+        .logo {
+            max-width: 200px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            transition: transform 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
         h1 {
             text-align: center;
             margin-bottom: 30px;
@@ -121,6 +142,10 @@
 </head>
 <body>
     <div class="container">
+        <div class="logo-container">
+            <img src="vznat.png" alt="VZNAT Logo" class="logo">
+        </div>
+        
         <h1>Калькулятор рейтингов</h1>
         
         <div class="calculator">
