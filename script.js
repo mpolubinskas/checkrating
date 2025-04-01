@@ -77,4 +77,3 @@ console.log("Необходимо отзывов (J6):", result.additionalReview
 const result2 = calculateRatingAndRequiredReviews(D6, E6, F6, G6, 113, K6);
 console.log("При H6 = 113, текущий рейтинг (I6):", result2.currentRating.toFixed(2));
 console.log("При H6 = 113, необходимо отзывов (J6):", result2.additionalReviews);
-  
